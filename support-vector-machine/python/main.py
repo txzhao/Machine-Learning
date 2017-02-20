@@ -53,10 +53,10 @@ def QuadOpt(x, P, slack, C):
     support = list()
     for i in range(len(alpha)):
         if slack == 1:
-            if (alpha[i] > 10e-5) and (alpha[i] < C):
+            if (alpha[i] > 1e-5) and (alpha[i] < C):
                 support.append((x[i][0], x[i][1], x[i][2], alpha[i])) 
         else:
-            if alpha[i] > 10e-5:
+            if alpha[i] > 1e-5:
                 support.append((x[i][0], x[i][1], x[i][2], alpha[i]))
     return support
 
