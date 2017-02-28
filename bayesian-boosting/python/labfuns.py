@@ -12,7 +12,7 @@ from sklearn import decomposition, tree
 # import seaborn as sns
 # sns.set()
 
-def plot_cov_ellipse(cov, pos, nstd=2, ax=None, **kwargs):
+def plot_cov_ellipse(cov, pos, nstd = 2, ax = None, **kwargs):
     """
     Plots an `nstd` sigma error ellipse based on the specified covariance
     matrix (`cov`). Additional keyword arguments are passed on to the
@@ -36,17 +36,17 @@ def plot_cov_ellipse(cov, pos, nstd=2, ax=None, **kwargs):
     def eigsorted(cov):
         vals, vecs = np.linalg.eigh(cov)
         order = vals.argsort()[::-1]
-        return vals[order], vecs[:,order]
+        return vals[order], vecs[:, order]
 
     if ax is None:
         ax = plt.gca()
 
     vals, vecs = eigsorted(cov)
-    theta = np.degrees(np.arctan2(*vecs[:,0][::-1]))
+    theta = np.degrees(np.arctan2(*vecs[:, 0][::-1]))
 
     # Width and height are "full" widths, not radius
     width, height = 2 * nstd * np.sqrt(vals)
-    ellip = Ellipse(xy=pos, width=width, height=height, angle=theta, **kwargs)
+    ellip = Ellipse(xy = pos, width = width, height = height, angle = theta, **kwargs)
     ellip.set_alpha(0.25)
 
     ax.add_artist(ellip)
