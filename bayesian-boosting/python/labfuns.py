@@ -76,31 +76,31 @@ def trteSplit(X,y,pcSplit,seed=None):
 # the data should be used as training data. The major difference to
 # trteSplit is that we select the percent from each class individually.
 # This means that we are assured to have enough points for each class.
-def trteSplitEven(X,y,pcSplit,seed=None):
+def trteSplitEven(X, y, pcSplit, seed = None):
     labels = np.unique(y)
-    xTr = np.zeros((0,X.shape[1]))
-    xTe = np.zeros((0,X.shape[1]))
-    yTe = np.zeros((0,),dtype=int)
-    yTr = np.zeros((0,),dtype=int)
-    trIdx = np.zeros((0,),dtype=int)
-    teIdx = np.zeros((0,),dtype=int)
+    xTr = np.zeros((0, X.shape[1]))
+    xTe = np.zeros((0, X.shape[1]))
+    yTe = np.zeros((0,), dtype = int)
+    yTr = np.zeros((0,), dtype = int)
+    trIdx = np.zeros((0,), dtype = int)
+    teIdx = np.zeros((0,), dtype = int)
     np.random.seed(seed)
     for label in labels:
-        classIdx = np.where(y==label)[0]
+        classIdx = np.where(y == label)[0]
         NPerClass = len(classIdx)
         Ntr = int(np.rint(NPerClass*pcSplit))
         idx = np.random.permutation(NPerClass)
         trClIdx = classIdx[idx[:Ntr]]
         teClIdx = classIdx[idx[Ntr:]]
-        trIdx = np.hstack((trIdx,trClIdx))
-        teIdx = np.hstack((teIdx,teClIdx))
+        trIdx = np.hstack((trIdx, trClIdx))
+        teIdx = np.hstack((teIdx, teClIdx))
         # Split data
-        xTr = np.vstack((xTr,X[trClIdx,:]))
-        yTr = np.hstack((yTr,y[trClIdx]))
-        xTe = np.vstack((xTe,X[teClIdx,:]))
-        yTe = np.hstack((yTe,y[teClIdx]))
+        xTr = np.vstack((xTr, X[trClIdx, :]))
+        yTr = np.hstack((yTr, y[trClIdx]))
+        xTe = np.vstack((xTe, X[teClIdx, :]))
+        yTe = np.hstack((yTe, y[teClIdx]))
 
-    return xTr,yTr,xTe,yTe,trIdx,teIdx
+    return xTr, yTr, xTe, yTe, trIdx, teIdx
 
 
 def fetchDataset(dataset='iris'):
