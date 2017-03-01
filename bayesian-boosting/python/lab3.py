@@ -233,7 +233,7 @@ class BoostClassifier(object):
 
 
 #================== Classifying faces ===================#
-# first check how a boosted decision tree classifier performs on the olivetti data
+# first check how different classifiers perform on the olivetti data
 testClassifier(BayesClassifier(), dataset = 'olivetti', split = 0.7, dim = 20)
 #testClassifier(DecisionTreeClassifier(), dataset = 'olivetti', split = 0.7, dim = 20)
 #testClassifier(BoostClassifier(BayesClassifier(), T = 10), dataset = 'olivetti', split = 0.7, dim = 20)
@@ -255,7 +255,7 @@ pca.fit(xTr)
 xTrpca = pca.transform(xTr)
 xTepca = pca.transform(xTe)
 
-# use our pre-defined decision tree classifier together with the implemented
+# use our pre-defined classifier together with the implemented
 # boosting to classify data points in the training data
 classifier = BayesClassifier().trainClassifier(xTrpca, yTr)
 #classifier = DecisionTreeClassifier().trainClassifier(xTrpca, yTr)
