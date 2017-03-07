@@ -137,34 +137,34 @@ def genBlobs(n_samples=200,centers=5,n_features=2):
 
 # Scatter plots the two first dimension of the given data matrix X
 # and colors the points by the labels.
-def scatter2D(X,y):
+def scatter2D(X, y):
     labels = np.unique(y)
     Ncolors = len(labels)
     xx = np.arange(Ncolors)
-    ys = [i+xx+(i*xx)**2 for i in range(Ncolors)]
+    ys = [i + xx + (i*xx)**2 for i in range(Ncolors)]
     colors = cm.rainbow(np.linspace(0, 1, len(ys)))
     c = 1.0
     for label in labels:
-        classIdx = np.where(y==label)[0]
-        Xclass = X[classIdx,:]
-        plt.scatter(Xclass[:,0],Xclass[:,1],linewidths=1,s=25,color=colors[label],marker='o',alpha=0.75)
+        classIdx = np.where(y == label)[0]
+        Xclass = X[classIdx, :]
+        plt.scatter(Xclass[:, 0], Xclass[:, 1], linewidths = 1, s = 25, color = colors[label], marker = 'o', alpha = 0.75)
         c += 1.
 
     plt.show()
 
 
-def plotGaussian(X,y,mu,sigma):
+def plotGaussian(X, y, mu, sigma):
     labels = np.unique(y)
     Ncolors = len(labels)
     xx = np.arange(Ncolors)
-    ys = [i+xx+(i*xx)**2 for i in range(Ncolors)]
+    ys = [i + xx + (i*xx)**2 for i in range(Ncolors)]
     colors = cm.rainbow(np.linspace(0, 1, len(ys)))
     c = 1.0
     for label in labels:
-        classIdx = y==label
-        Xclass = X[classIdx,:]
+        classIdx = (y == label)
+        Xclass = X[classIdx, :]
         plot_cov_ellipse(sigma[label], mu[label])
-        plt.scatter(Xclass[:,0],Xclass[:,1],linewidths=1,s=25,color=colors[label],marker='o',alpha=0.75)
+        plt.scatter(Xclass[:, 0], Xclass[:, 1], linewidths = 1, s = 25, color = colors[label], marker = 'o', alpha = 0.75)
         c += 1.
 
     plt.show()
@@ -173,22 +173,22 @@ def plotGaussian(X,y,mu,sigma):
 # The function below, `testClassifier`, will be used to try out the different datasets.
 # `fetchDataset` can be provided with any of the dataset arguments `wine`, `iris`, `olivetti` and `vowel`.
 # Observe that we split the data into a **training** and a **testing** set.
-def testClassifier(classifier, dataset='iris', dim=0, split=0.7, ntrials=100):
+def testClassifier(classifier, dataset = 'iris', dim = 0, split = 0.7, ntrials = 100):
 
-    X,y,pcadim = fetchDataset(dataset)
+    X, y, pcadim = fetchDataset(dataset)
 
     means = np.zeros(ntrials,);
 
     for trial in range(ntrials):
 
-        xTr,yTr,xTe,yTe,trIdx,teIdx = trteSplitEven(X,y,split,trial)
+        xTr, yTr, xTe, yTe, trIdx, teIdx = trteSplitEven(X, y, split, trial)
 
         # Do PCA replace default value if user provides it
         if dim > 0:
             pcadim = dim
 
         if pcadim > 0:
-            pca = decomposition.PCA(n_components=pcadim)
+            pca = decomposition.PCA(n_components = pcadim)
             pca.fit(xTr)
             xTr = pca.transform(xTr)
             xTe = pca.transform(xTe)
@@ -200,9 +200,9 @@ def testClassifier(classifier, dataset='iris', dim=0, split=0.7, ntrials=100):
 
         # Compute classification error
         if trial % 10 == 0:
-            print("Trial:",trial,"Accuracy","%.3g" % (100*np.mean((yPr==yTe).astype(float))) )
+            print("Trial:", trial, "Accuracy", "%.3g" % (100*np.mean((yPr == yTe).astype(float))))
 
-        means[trial] = 100*np.mean((yPr==yTe).astype(float))
+        means[trial] = 100*np.mean((yPr == yTe).astype(float))
 
     print("Final mean classification accuracy ", "%.3g" % (np.mean(means)), "with standard deviation", "%.3g" % (np.std(means)))
 
@@ -211,13 +211,13 @@ def testClassifier(classifier, dataset='iris', dim=0, split=0.7, ntrials=100):
 #
 # This is some code that you can use for plotting the decision boundary
 # boundary in the last part of the lab.
-def plotBoundary(classifier, dataset='iris', split=0.7):
+def plotBoundary(classifier, dataset = 'iris', split = 0.7):
 
-    X,y,pcadim = fetchDataset(dataset)
-    xTr,yTr,xTe,yTe,trIdx,teIdx = trteSplitEven(X,y,split,1)
+    X, y, pcadim = fetchDataset(dataset)
+    xTr, yTr, xTe, yTe, trIdx, teIdx = trteSplitEven(X, y, split, 1)
     classes = np.unique(y)
 
-    pca = decomposition.PCA(n_components=2)
+    pca = decomposition.PCA(n_components = 2)
     pca.fit(xTr)
 
     xTr = pca.transform(xTr)
@@ -229,8 +229,8 @@ def plotBoundary(classifier, dataset='iris', split=0.7):
     # Train
     trained_classifier = classifier.trainClassifier(xTr, yTr)
 
-    xRange = np.arange(np.min(pX[:,0]),np.max(pX[:,0]),np.abs(np.max(pX[:,0])-np.min(pX[:,0]))/100.0)
-    yRange = np.arange(np.min(pX[:,1]),np.max(pX[:,1]),np.abs(np.max(pX[:,1])-np.min(pX[:,1]))/100.0)
+    xRange = np.arange(np.min(pX[:, 0]), np.max(pX[:, 0]), np.abs(np.max(pX[:, 0]) - np.min(pX[:, 0]))/100.0)
+    yRange = np.arange(np.min(pX[:, 1]), np.max(pX[:, 1]), np.abs(np.max(pX[:, 1]) - np.min(pX[:, 1]))/100.0)
 
     grid = np.zeros((yRange.size, xRange.size))
 
@@ -240,7 +240,7 @@ def plotBoundary(classifier, dataset='iris', split=0.7):
             grid[yi,xi] = trained_classifier.classify(np.array([[xx, yy]]))
 
     
-    ys = [i+xx+(i*xx)**2 for i in range(len(classes))]
+    ys = [i + xx + (i*xx)**2 for i in range(len(classes))]
     colormap = cm.rainbow(np.linspace(0, 1, len(ys)))
 
     fig = plt.figure()
@@ -248,15 +248,15 @@ def plotBoundary(classifier, dataset='iris', split=0.7):
     conv = ColorConverter()
     for (color, c) in zip(colormap, classes):
         try:
-            CS = plt.contour(xRange,yRange,(grid==c).astype(float),15,linewidths=0.25,colors=conv.to_rgba_array(color))
+            CS = plt.contour(xRange, yRange, (grid == c).astype(float), 15, linewidths = 0.25, colors = conv.to_rgba_array(color))
         except ValueError:
             pass
         trClIdx = np.where(y[trIdx] == c)[0]
         teClIdx = np.where(y[teIdx] == c)[0]
-        plt.scatter(xTr[trClIdx,0],xTr[trClIdx,1],marker='o',c=color,s=40,alpha=0.5, label="Class "+str(c)+" Train")
-        plt.scatter(xTe[teClIdx,0],xTe[teClIdx,1],marker='*',c=color,s=50,alpha=0.8, label="Class "+str(c)+" Test")
-    plt.legend(bbox_to_anchor=(1., 1), loc=2, borderaxespad=0.)
-    fig.subplots_adjust(right=0.7)
+        plt.scatter(xTr[trClIdx, 0], xTr[trClIdx, 1], marker = 'o', c = color, s = 40, alpha = 0.5, label = "Class " + str(c) + " Train")
+        plt.scatter(xTe[teClIdx, 0], xTe[teClIdx, 1], marker = '*', c = color, s = 50, alpha = 0.8, label = "Class " + str(c) + " Test")
+    plt.legend(bbox_to_anchor = (1., 1), loc = 2, borderaxespad = 0.)
+    fig.subplots_adjust(right = 0.7)
     plt.show()
 
 
@@ -269,12 +269,12 @@ def visualizeOlivettiVectors(xTr, Xte):
     plt.title("Test image")
     plt.imshow(Xte, cmap=plt.get_cmap('gray'))
     for i in range(0, N):
-        plt.subplot(N, 2, 2+2*i)
+        plt.subplot(N, 2, 2 + 2*i)
         plt.xticks([])
         plt.yticks([])
-        plt.title("Matched class training image %i" % (i+1))
+        plt.title("Matched class training image %i" % (i + 1))
         X = xTr[i, :].reshape(64, 64).transpose()
-        plt.imshow(X, cmap=plt.get_cmap('gray'))
+        plt.imshow(X, cmap = plt.get_cmap('gray'))
     plt.show()
 
 
@@ -282,13 +282,13 @@ class DecisionTreeClassifier(object):
     def __init__(self):
         self.trained = False
 
-    def trainClassifier(self, Xtr, yTr, W=None):
+    def trainClassifier(self, Xtr, yTr, W = None):
         rtn = DecisionTreeClassifier()
-        rtn.classifier = tree.DecisionTreeClassifier(max_depth=Xtr.shape[1]/2+1)
+        rtn.classifier = tree.DecisionTreeClassifier(max_depth = Xtr.shape[1]/2 + 1)
         if W is None:
             rtn.classifier.fit(Xtr, yTr)
         else:
-            rtn.classifier.fit(Xtr, yTr, sample_weight=W.flatten())
+            rtn.classifier.fit(Xtr, yTr, sample_weight = W.flatten())
         rtn.trained = True
         return rtn
 
