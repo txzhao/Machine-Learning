@@ -55,21 +55,21 @@ def plot_cov_ellipse(cov, pos, nstd = 2, ax = None, **kwargs):
 
 # Splits data into training and test set, pcSplit defines the percent of
 # the data should be used as training data.
-def trteSplit(X,y,pcSplit,seed=None):
+def trteSplit(X, y, pcSplit, seed = None):
     # Compute split indices
     Ndata = X.shape[0]
     Ntr = int(np.rint(Ndata*pcSplit))
-    Nte = Ndata-Ntr
+    Nte = Ndata - Ntr
     np.random.seed(seed)    
     idx = np.random.permutation(Ndata)
     trIdx = idx[:Ntr]
     teIdx = idx[Ntr:]
     # Split data
-    xTr = X[trIdx,:]
+    xTr = X[trIdx, :]
     yTr = y[trIdx]
-    xTe = X[teIdx,:]
+    xTe = X[teIdx, :]
     yTe = y[teIdx]
-    return xTr,yTr,xTe,yTe,trIdx,teIdx
+    return xTr, yTr, xTe, yTe, trIdx, teIdx
 
 
 # Splits data into training and test set, pcSplit defines the percent of
