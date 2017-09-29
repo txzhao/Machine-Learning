@@ -1,5 +1,7 @@
 # Machine-Learning
 
+Course lab work of [DD2431 Machine Learning](https://www.kth.se/social/course/DD2431/) at KTH.
+
 ## Contents
 * lab 1: decision trees [[slide]](https://github.com/txzhao/Machine-Learning/blob/master/decision-tree/dctrees.pdf)
 
